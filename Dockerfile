@@ -1,5 +1,5 @@
-# Step 1: Build the Rust application
-FROM rust:1.75 AS builder
+# Step 1: Build the Rust application using the latest Rust version
+FROM rust:latest AS builder
 WORKDIR /usr/src/pointercrate
 COPY . .
 # This deletes the broken lock file so Rust can auto-generate a fresh one
