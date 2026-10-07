@@ -2,6 +2,8 @@
 FROM rust:1.75 AS builder
 WORKDIR /usr/src/pointercrate
 COPY . .
+# This deletes the broken lock file so Rust can auto-generate a fresh one
+RUN rm -f Cargo.lock
 RUN cargo build --release --bin pointercrate-example
 
 # Step 2: Create a minimal runner image
