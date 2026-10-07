@@ -2,13 +2,14 @@
 FROM rust:latest AS builder
 WORKDIR /usr/src/pointercrate
 
-# We tell SQLX to connect directly to the database link provided below
-ARG DATABASE_URL=postgres://avnadmin:AVNS_Fo2vkEPuHOrxIcNLCAp@://aivencloud.com
-
-ENV DATABASE_URL=${DATABASE_URL}
+# We set a dummy URL and tell SQLx to skip compile-time checking
+ENV SQLX_OFFLINE=true
+ENV DATABASE_URL=postgres://localhost/dummy
 
 COPY . .
 RUN rm -f Cargo.lock
+
+# We use standard build flags that force compilation without checking live tables
 RUN cargo build --release --bin pointercrate-example
 
 # Step 2: Create a minimal runner image
