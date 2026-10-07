@@ -1,8 +1,13 @@
-# Step 1: Build the Rust application using the latest Rust version
+# Step 1: Build the Rust application
 FROM rust:latest AS builder
 WORKDIR /usr/src/pointercrate
+
+# We tell SQLX to connect directly to the database link provided below
+ARG DATABASE_URL=postgres://avnadmin:AVNS_Fo2vkEPuHOrxIcNLCAp@://aivencloud.com
+
+ENV DATABASE_URL=${DATABASE_URL}
+
 COPY . .
-# This deletes the broken lock file so Rust can auto-generate a fresh one
 RUN rm -f Cargo.lock
 RUN cargo build --release --bin pointercrate-example
 
